@@ -16,4 +16,4 @@ jobs:
         with:
           target: my-file.txt
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          parent_folder_id: ${{ secrets.FOLDER_ID}}
+          parent_folder_id: ${{ env.FOLDER_ID}}
