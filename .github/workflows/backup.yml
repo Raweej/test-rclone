@@ -5,15 +5,19 @@ on:
     branches: [ main ]
 
 jobs:
-  backup:
+  my_job:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4.1.1
 
-      - name: Upload to Google Drive
-        uses: Jumbo810/Upload_Github_Artifacts_TO_GDrive@v2.2.2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Upload to gdrive
+        uses: adityak74/google-drive-upload-git-action@main
         with:
-          target: my-file.txt
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          parent_folder_id: ${{ secrets.FOLDER_ID }}
+          filename: "my-file.txt"
+          folderId: ${{ secrets.FOLDER_ID }}
+          name: "my-file.txt" # optional string
+          overwrite: "true" # optional boolean
