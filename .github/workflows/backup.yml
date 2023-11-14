@@ -21,3 +21,7 @@ jobs:
           folderId: ${{ secrets.FOLDER_ID }}
           name: "my-file.txt" # optional string
           overwrite: "true" # optional boolean
+
+      - name: Delete local file
+        run: |
+          rm my-file.txt
