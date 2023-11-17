@@ -12,19 +12,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Archive files
+        run: |
+          sudo apt-get update
+          sudo apt-get install zip
+          zip -m ./backup/backup.zip ./backup/*.sql
         
       - name: Upload to gdrive
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          filename: "my-file.txt"
+          filename: "backup.zip"
           folderId: ${{ secrets.FOLDER_ID }}
-          name: "my-file.txt" # optional string
+          name: "backup.zip" # optional string
           overwrite: "true" # optional boolean
 
       - name: Delete local file
         run: |
-          rm my-file.txt
+          rm -f ./backup/*.sql ./backup/*.zip
           
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
