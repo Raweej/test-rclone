@@ -6,6 +6,7 @@ on:
 
 jobs:
   run_db_backup:
+    name: Backup Job - ${{ current_date }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
