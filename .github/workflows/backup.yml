@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Get Current Date
-        run: echo "MY_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+        run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
 
       - name: Archive files
         run: |
           sudo apt-get update
           sudo apt-get install zip
-          zip -m "backup/backup_${{ env.MY_DATE }}.zip" backup/*.sql
+          zip -m ./backup/backup_${{ env.DATE }}.zip backup/*.sql
 
       # - name: Upload to gdrive
       #   uses: adityak74/google-drive-upload-git-action@main
