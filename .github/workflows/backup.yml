@@ -13,13 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check if .sql files exist
-        run: |
-          if [ -z "$(ls -A ./backup/*.sql 2>/dev/null)" ]; then
-            echo "No .sql files found in ./backup. Exiting..."
-            exit 0
-          fi
-
       - name: Archive files
         run: |
           sudo apt-get update
