@@ -19,7 +19,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install zip
           echo "::set-output name=date::$(date +'%Y-%m-%d')"
-          zip -m "./backup/backup_${{ steps.date.outputs.date }}.zip" ./backup/*.sql
+          zip -m "backup/backup_${{ steps.date.outputs.date }}.zip" backup/*.sql
 
       # - name: Upload to gdrive
       #   uses: adityak74/google-drive-upload-git-action@main
