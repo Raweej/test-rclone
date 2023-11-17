@@ -13,25 +13,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Check if .sql files exist
+        run: |
+          if [ -z "$(ls -A ./backup/*.sql 2>/dev/null)" ]; then
+            echo "No .sql files found in ./backup. Exiting..."
+            exit 0
+          fi
+
       - name: Archive files
         run: |
           sudo apt-get update
           sudo apt-get install zip
-          zip -m ./backup/backup.zip ./backup/*.sql
-        
+          current_date=$(date +"%Y%m%d_%H%M%S")
+          zip -m "./backup/backup_$current_date.zip" ./backup/*.sql
+
       - name: Upload to gdrive
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          filename: "./backup/backup.zip"
+          filename: "./backup/backup_$current_date.zip"
           folderId: ${{ secrets.FOLDER_ID }}
-          name: "backup.zip" # optional string
+          name: "backup_$current_date.zip" # optional string
           overwrite: "true" # optional boolean
 
       - name: Delete local file
         run: |
-          rm -f ./backup/*.sql ./backup/*.zip
-          
+          rm -f ./backup/*.sql "./backup/backup_$current_date.zip"
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Upload backup to google drive
