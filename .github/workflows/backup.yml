@@ -23,7 +23,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          filename: "backup.zip"
+          filename: "./backup/backup.zip"
           folderId: ${{ secrets.FOLDER_ID }}
           name: "backup.zip" # optional string
           overwrite: "true" # optional boolean
