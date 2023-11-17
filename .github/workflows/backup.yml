@@ -13,12 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Archive files
+      - name: Get Current Date
         id: date
+        run : echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Archive files
         run: |
           sudo apt-get update
           sudo apt-get install zip
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
           zip -m "backup/backup_${{ steps.date.outputs.date }}.zip" backup/*.sql
 
       # - name: Upload to gdrive
