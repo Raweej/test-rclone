@@ -17,21 +17,21 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install zip
-          current_date=$(date +"%Y%m%d_%H%M%S")
-          zip -m "./backup/backup_$current_date.zip" ./backup/*.sql
+          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          zip -m "./backup/backup_${{ steps.date.outputs.date }}.zip" ./backup/*.sql
 
       - name: Upload to gdrive
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          filename: "./backup/backup_$current_date.zip"
+          filename: "./backup/backup_${{ steps.date.outputs.date }}.zip"
           folderId: ${{ secrets.FOLDER_ID }}
-          name: "backup_$current_date.zip" # optional string
+          name: "backup_${{ steps.date.outputs.date }}.zip" # optional string
           overwrite: "true" # optional boolean
 
       - name: Delete local file
         run: |
-          rm -f ./backup/*.sql "./backup/backup_$current_date.zip"
+          rm -f ./backup/*.sql ./backup/*.zip
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
